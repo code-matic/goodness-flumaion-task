@@ -69,14 +69,14 @@ const TaskList = () => {
       <div className="flex items-center justify-between gap-3 pt-5 pb-8 sm:py-10 sm:hidden">
         <div className="flex items-center gap-2">
           <p className="text-lg font-semibold text-gray-900">Total:</p>{" "}
-          <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#124e66]">
-            <p className="text-sm font-medium text-[#124e66] ">
+          <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#009688]">
+            <p className="text-sm font-medium text-[#009688] ">
               {filteredTasks.length} task{filteredTasks.length > 1 ? "s" : ""}
             </p>
           </div>
         </div>
         <button onClick={() => clearFilters()}>
-          <p className="text-sm font-semibold text-[#124e66] underline">
+          <p className="text-sm font-semibold text-[#009688] underline">
             Clear filters
           </p>
         </button>
@@ -134,14 +134,14 @@ const TaskList = () => {
       <div className="items-center justify-between hidden gap-3 py-10 sm:flex">
         <div className="flex items-center gap-2">
           <p className="text-lg font-semibold text-gray-900">Total:</p>{" "}
-          <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#124e66]">
-            <p className="text-sm font-medium text-[#124e66] ">
+          <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#009688]">
+            <p className="text-sm font-medium text-[#009688] ">
               {filteredTasks.length} task{filteredTasks.length > 1 ? "s" : ""}
             </p>
           </div>
         </div>
         <button onClick={() => clearFilters()}>
-          <p className="text-sm font-semibold text-[#124e66] underline">
+          <p className="text-sm font-semibold text-[#009688] underline">
             Clear filters
           </p>
         </button>
