@@ -22,8 +22,8 @@ const TaskList = () => {
     const [startDate, endDate] = dateRange;
 
     if (startDate && endDate) {
-      const taskStartDate = new Date(task.date[0]);
-      const taskEndDate = new Date(task.date[1]);
+      const taskStartDate = new Date(task.startDate);
+      const taskEndDate = new Date(task.endDate);
       
       const filterStartDate = new Date(startDate);
       filterStartDate.setHours(0, 0, 0, 0);
@@ -63,10 +63,35 @@ const TaskList = () => {
     setStatus(undefined);
     setSearchQuery("");
   };
-
+  
   return (
     <div className="w-full ">
-      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="flex items-center justify-between gap-3 pt-5 pb-8 sm:py-10 sm:hidden">
+        <div className="flex items-center gap-2">
+          <p className="text-lg font-semibold text-gray-900">Total:</p>{" "}
+          <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#124e66]">
+            <p className="text-sm font-medium text-[#124e66] ">
+              {filteredTasks.length} task{filteredTasks.length > 1 ? "s" : ""}
+            </p>
+          </div>
+        </div>
+        <button onClick={() => clearFilters()}>
+          <p className="text-sm font-semibold text-[#124e66] underline">
+            Clear filters
+          </p>
+        </button>
+      </div>
+      <div className="grid w-full grid-cols-1 gap-4 pb-10 sm:grid-cols-2 lg:grid-cols-4 sm:pb-0">
+      <div className="block sm:hidden">
+          <TextInput
+            prefix={<SearchIcon />}
+            placeholder="Search"
+            label="."
+            labelClassName="!text-white sm:block hidden"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
         <DateRange
           label="Date"
           placeholder={["Start date", "End date"]}
@@ -95,7 +120,7 @@ const TaskList = () => {
           value={status}
           onChange={(value) => setStatus(value)}
         />
-        <div className="">
+        <div className="hidden sm:block">
           <TextInput
             prefix={<SearchIcon />}
             placeholder="Search"
@@ -106,7 +131,7 @@ const TaskList = () => {
           />
         </div>
       </div>
-      <div className="flex items-center justify-between gap-3 py-10">
+      <div className="items-center justify-between hidden gap-3 py-10 sm:flex">
         <div className="flex items-center gap-2">
           <p className="text-lg font-semibold text-gray-900">Total:</p>{" "}
           <div className="py-[2px] px-2 rounded-2xl border bg-white border-[#124e66]">
@@ -116,7 +141,7 @@ const TaskList = () => {
           </div>
         </div>
         <button onClick={() => clearFilters()}>
-          <p className="text-base font-semibold text-[#124e66] underline">
+          <p className="text-sm font-semibold text-[#124e66] underline">
             Clear filters
           </p>
         </button>

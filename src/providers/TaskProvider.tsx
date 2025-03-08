@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { ReactNode} from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import type {

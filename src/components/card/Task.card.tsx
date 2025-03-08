@@ -17,7 +17,7 @@ const TaskCard = ({ data }: { data: TaskData }) => {
         </p>
         <div className="flex flex-wrap gap-2">
           <p className="text-sm text-[#475467] font-[300]">
-            {formatDate(data.date[0])} - {formatDate(data.date[1])}
+            {formatDate(data.startDate)} - {formatDate(data.endDate)}
           </p>{" "}
           <Tag type={data.status} />
           <Tag type={data.priority} />

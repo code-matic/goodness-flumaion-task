@@ -6,7 +6,8 @@ export interface TaskData {
   description: string;
   priority: string;
   status: string;
-  date: [Date, Date];
+  startDate: Date;
+  endDate: Date;
 }
 
 const getStorageData = (key: string) => {

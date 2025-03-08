@@ -4,11 +4,11 @@ import Button from "../common/Button";
 import TextAreaInput from "../common/TextAreaInput";
 import { SelectInput } from "../common/SelectDropdownInput";
 import { PriorityOptions, StatusOptions } from "../../lib/data/options";
-import DateRange from "../common/DateRange";
-import { Form } from "antd";
+import { DatePicker, Form } from "antd";
 import { useTaskProvider } from "../../providers/TaskProvider";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
 
 // Task interface
 interface Task {
@@ -16,7 +16,8 @@ interface Task {
   description: string;
   priority: string;
   status: string;
-  date: [Date, Date];
+  startDate: Date;
+  endDate: Date;
   id: string;
 }
 
@@ -29,10 +30,16 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
   const [form] = Form.useForm();
   const { addNewTask, isLoading, updateExistingTask } = useTaskProvider();
+  dayjs.extend(utc);
 
   useEffect(() => {
     if (initialValues) {
-      form.setFieldsValue(initialValues);
+      const formValues = {
+        ...initialValues,
+        startDate: dayjs(initialValues.startDate).utc(),
+        endDate: dayjs(initialValues.endDate).utc(),
+      };
+      form.setFieldsValue(formValues);
     }
   }, [initialValues, form]);
 
@@ -40,33 +47,38 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
     e.preventDefault();
     const newId = uuidv4();
     const values = await form.validateFields();
-    const startDate = typeof values.date[0] === 'string' ? values.date[0] : values.date[0].toDate();
-    const endDate = typeof values.date[1] === 'string' ? values.date[1] : values.date[1].toDate();
-  
+    const startDate =
+      typeof values.startDate === "string"
+        ? values.startDate
+        : values.startDate.utc(true).toISOString();
+    const endDate =
+      typeof values.endDate === "string"
+        ? values.endDate
+        : values.endDate.utc(true).toISOString();
+
     if (initialValues) {
       const task = {
         ...values,
-        date: [
-          startDate,
-          endDate, 
-        ],
+
+        startDate,
+        endDate,
+
         id: initialValues.id,
       };
       updateExistingTask(initialValues.id, task);
       form.resetFields();
-      handleCancel()
+      handleCancel();
     } else {
       const task = {
         ...values,
-        date: [values.date[0].toDate(), values.date[1].toDate()],
-  
+        startDate: values.startDate.utc(true).toISOString(),
+        endDate: values.endDate.utc(true).toISOString(),
         id: newId,
       };
       addNewTask(task);
       form.resetFields();
-      handleCancel()
+      handleCancel();
     }
-    
   };
 
   return (
@@ -75,7 +87,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
         autoComplete="on"
         form={form}
         className="w-full"
-        initialValues={initialValues}
       >
         <Form.Item
           name="title"
@@ -140,31 +151,88 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
             placeHolder="Select status"
           />
         </Form.Item>
-        <Form.Item
-          name="date"
+        <div>
+        <div className="mb-[6px]">
+        <label
+          className=" capitalize font-inter !text-sm font-medium text-gray-700"
+        >
+          Start date
+        </label>
+      </div>
+      <Form.Item
           rules={[
             {
               required: true,
-              message: "Select date and time",
+              message: (
+                <p className="text-error-600 mt-[6px] text-sm font-normal font-helvetica_neue">
+                  Select a start date
+                </p>
+              ),
             },
           ]}
+          name="startDate"
         >
-          <DateRange
-            defaultValue={
-              initialValues
-                ? [
-                    dayjs(initialValues?.date[0], "YYYY-MM-DD HH:mm"),
-                    dayjs(initialValues?.date[1], "YYYY-MM-DD HH:mm"),
-                  ]
-                : undefined
-            }
-            label="Date and time*"
-            popClassName="form-date-range"
-            className="w-full placeholder:!text-sm !text-sm"
-            placeholder={["Start date", "End date"]}
-            showTime={{ format: "HH:mm" }}
+          <DatePicker
+            popupClassName="form-date-range"
+            className={`flex !w-full flex-1 !h-11 items-center !rounded-lg border border-gray-300
+              !px-[14px] !py-[10px] !text-sm   hover:!border-primary focus:!border-primary !bg-white !text-gray-700 placeholder:!text-gray-500`}
+            format="DD/MM/YYYY HH:mm"
+            showTime={{
+              defaultValue: dayjs("00:00:00", "HH:mm"),
+            }}
           />
         </Form.Item>
+        </div>
+       
+        <div>
+        <div className="mb-[6px]">
+        <label
+          className=" capitalize font-inter !text-sm font-medium text-gray-700"
+        >
+          End date
+        </label>
+      </div>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: (
+                <p className="text-error-600 mt-[6px] text-sm font-normal font-helvetica_neue">
+                  Select a end date
+                </p>
+              ),
+              
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || !getFieldValue('startDate')) {
+                  return Promise.resolve();
+                }
+                
+                const startDate = dayjs(getFieldValue('startDate'));
+                const endDate = dayjs(value);
+                
+                if (endDate.isBefore(startDate) || endDate.isSame(startDate)) {
+                  return Promise.reject(new Error('End date must be after start date'));
+                }
+                
+                return Promise.resolve();
+              },
+            }),
+          ]}
+          name="endDate"
+        >
+          <DatePicker
+            popupClassName="form-date-range"
+            className={`flex !w-full flex-1 !h-11 items-center !rounded-lg border border-gray-300
+              !px-[14px] !py-[10px] !text-sm   hover:!border-primary focus:!border-primary !bg-white !text-gray-700 placeholder:!text-gray-500`}
+            format="DD/MM/YYYY HH:mm"
+            showTime={{
+              defaultValue: dayjs("00:00:00", "HH:mm"),
+            }}
+          />
+        </Form.Item>
+        </div>
         <div className="flex items-center justify-between w-full gap-5 pt-2">
           <Button
             title="Cancel"
