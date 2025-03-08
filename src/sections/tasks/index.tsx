@@ -147,11 +147,11 @@ const TaskList = () => {
         </button>
       </div>
       {filteredTasks.length === 0 ? (
-        <div className="flex justify-center w-full h-[300px] items-center">
+        <div className="flex justify-center w-full h-[calc(100vh-500px)] items-center">
           <Empty description="No task found " />
         </div>
       ) : (
-        <div className="flex items-center justify-center w-full">
+        <div className="flex justify-center w-full min-h-[calc(100vh-500px)]">
           <div className="w-full space-y-6 ">
             {filteredTasks.map((task) => (
               <div key={task.id}>

@@ -22,7 +22,7 @@ const Home = () => {
         </div>
         <div className="flex items-center justify-center pt-20">
           <img
-            src="/images/mockup.svg"
+            src="/images/mockup.webp"
             alt="hero"
             className="md:w-[75%] sm:w-[85%] w-[90%]"
           />
