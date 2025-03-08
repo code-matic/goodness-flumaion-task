@@ -1,17 +1,15 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy all files
 COPY . .
 
-# RUN npm install
 RUN npm install
 
-#RUN npm build
+RUN npm i -g serve
+
 RUN npm run build
 
 EXPOSE 3000
 
-# Start the app using serve command
-CMD ["npm", "start"]
+CMD [ "serve", "-s", "dist" ]
