@@ -50,7 +50,6 @@ export default [
       "@typescript-eslint/no-empty-interface": "error",
       "@typescript-eslint/no-empty-object-type": "error",
       "@typescript-eslint/ban-ts-comment": "warn",
-      "@typescript-eslint/no-non-null-assertion": "warn",
       "@typescript-eslint/consistent-type-imports": "error",
       "jsx-quotes": ["error", "prefer-double"],
     },
