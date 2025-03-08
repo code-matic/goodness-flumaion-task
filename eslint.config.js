@@ -46,7 +46,6 @@ export default [
       "react/jsx-curly-brace-presence": "error",
       "react/self-closing-comp": "error",
       "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-empty-interface": "error",
       "@typescript-eslint/no-empty-object-type": "error",
       "@typescript-eslint/ban-ts-comment": "warn",

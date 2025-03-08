@@ -4,7 +4,7 @@ import { generalRoutes } from "../lib/routes";
 const Home = () => {
   return (
     <main className="">
-      <div className="pb-21 pt-14">
+      <div className="pt-16 pb-21">
         <div className="flex flex-col items-center justify-center">
           <h1 className="max-w-[660px] text-center font-semibold text-5xl leading-[56px] lg:text-6xl text-[#101828] lg:leading-[72px]">
             Organize Your Work, Simplify Your Life

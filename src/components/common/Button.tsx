@@ -22,8 +22,8 @@ const buttonStyles = cva(
   {
     variants: {
       intent: {
-        primary: "bg-[#ED7845] border border-[#ED7845] text-white",
-        secondary: "bg-white border border-[#ED7845] text-[#ED7845]",
+        primary: "bg-[#124e66] border border-[#124e66] text-white",
+        secondary: "bg-white border border-[#124e66] text-[#124e66]",
       },
       centered: {
         true: "mx-auto",
@@ -52,7 +52,7 @@ const Button = ({
     <LoadingOutlined
       style={{
         fontSize: 24,
-        color: `${intent === "secondary" ? "#ED7845" : "white"}`,
+        color: `${intent === "secondary" ? "#124e66" : "white"}`,
       }}
       spin
     />
@@ -63,8 +63,8 @@ const Button = ({
       className={cn(`${buttonStyles({ intent, centered })}  ${className!}`)}
       {...props}
     >
-      {title}
       {icon ? icon : null}
+      {title}
     </Link>
   ) : (
     <>
@@ -87,8 +87,8 @@ const Button = ({
           className={cn(`${buttonStyles({ intent, centered })}  ${className!}`)}
           {...props}
         >
-          {title}
           {icon ? icon : null}
+          {title}
         </button>
       )}
     </>

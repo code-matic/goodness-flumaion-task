@@ -13,4 +13,93 @@
 
 body {
     font-family: "Inter", sans-serif;
+    overflow-x: hidden !important; 
   }
+
+  /* antd select */
+
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    padding: 0 !important;
+}
+
+.ant-select-outlined:not(.ant-select-customize-input) .ant-select-selector {
+    border: none !important;
+}
+
+.ant-select-focused .ant-select-selector {
+    box-shadow: none !important;
+}
+
+/* antd date */
+
+/* .filter-date-range.ant-picker-dropdown-range{
+    width: 100% !important;
+} */
+
+.filter-date-range.ant-picker-dropdown-range  .ant-picker-panel-container, .form-date-range.ant-picker-dropdown-range  .ant-picker-panel-container{
+    overflow: scroll !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+    border: 1px solid #124e66 !important;
+}
+
+.ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-start:not(.ant-picker-cell-disabled) .ant-picker-cell-inner, :where(.css-dev-only-do-not-override-240cud).ant-picker-dropdown .ant-picker-cell-in-view.ant-picker-cell-range-end:not(.ant-picker-cell-disabled) .ant-picker-cell-inner {
+
+    background: #124e66 !important;
+}
+
+.ant-picker-outlined:focus-within,.ant-input-outlined:focus-within {
+    box-shadow: none !important;
+    border-color: #d1d5dc !important;
+}
+
+.ant-picker-active-bar {
+    background: #124e66 !important;
+}
+
+.ant-picker-outlined:hover {
+    border-color: #d1d5dc !important;
+}
+
+.ant-input-outlined.ant-input-status-error:not(.ant-input-disabled), .ant-picker-outlined.ant-picker-status-error:not(.ant-picker-disabled), .ant-input-outlined:hover {
+    border-color: #d1d5dc !important;
+}
+.form-date-range {
+    /* width: 100% !important; */
+    /* left: 10px !important; */
+    overflow: scroll !important;
+    /* min-width: 0 !important; */
+    z-index: 9999999999 !important;
+}
+
+
+
+.form-date-range .ant-btn-variant-solid {
+    background: #124e66 !important;
+    color: white !important;
+}
+
+@media (max-width: 610px) {
+    .filter-date-range{
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 450px) {
+    .form-date-range{
+       min-width: 0px !important;
+        width: 100% !important;
+        left: 10px !important;
+    }
+
+    .form-date-range .ant-picker-range-wrapper.ant-picker-date-range-wrapper{
+        width: 450px !important;
+    }
+
+    .form-date-range .ant-picker-time-panel-column {
+        overflow-y: scroll !important;
+    }
+    
+    
+}
