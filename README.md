@@ -5,7 +5,7 @@ A modern web application designed to help you manage your tasks efficiently with
 ## Features
 
 - **Task Management**
-  - Create tasks with title, description, priority levels, status and date
+  - Create tasks with title, description, priority levels, status, and date
   - Edit existing tasks to update information
   - Delete tasks when they're no longer needed
   - Set start and end dates for better planning
@@ -78,6 +78,26 @@ This application can be deployed using Google Cloud Build. The included `cloudbu
 1. Building the Docker image
 2. Pushing the image to Google Container Registry
 3. Deploying to Google Cloud Run
+
+## ✅ Task Completion Status
+
+- [x] **Initial Setup and Infrastructure**
+  - [x] Set Up the Project
+  - [x] Set Up ESLint
+  - [x] Build Infrastructure with CI
+  - [x] Create Simple Homepage
+  - [x] Integrate React Router
+
+- [x] **Task Components**
+  - [x] Create TaskForm Component
+  - [x] Create TaskList Component
+  - [x] Create TaskItem Component
+
+- [x] **Task Management**
+  - [x] Manage State
+  - [x] Implement Add Task Functionality
+  - [x] Implement Edit Task Functionality
+  - [x] Implement Delete Task Functionality
 
 ## License
 
