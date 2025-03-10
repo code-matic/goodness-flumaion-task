@@ -5,7 +5,7 @@ import type { Dayjs } from "dayjs";
 interface IProps {
   label?: string;
   placeholder?: [string, string];
-  value?: string | number | [Dayjs, Dayjs] | undefined[];
+  value?: [Dayjs, Dayjs] | null | undefined;
   type?: string;
   name?: string;
   className?: string;
@@ -21,7 +21,7 @@ interface IProps {
 const { RangePicker } = DatePicker;
 
 const DateRange = (props: IProps) => {
-  const { label, placeholder, name, onChange, labelClassName, showTime, defaultValue, popClassName, open } =
+  const { label, placeholder, name, value, onChange, labelClassName, showTime, defaultValue, popClassName, open } =
     props;
 
   return (
@@ -48,6 +48,7 @@ const DateRange = (props: IProps) => {
             –
           </p>
         }
+        value={value}
         // placement="bottomRight"
         showTime={showTime}
         open={open}

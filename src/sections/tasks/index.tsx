@@ -7,30 +7,37 @@ import { PriorityOptions, StatusOptions } from "../../lib/data/options";
 import TaskCard from "../../components/card/Task.card";
 import { useTaskProvider } from "../../providers/TaskProvider";
 import { Empty } from "antd";
-import type { SetStateAction} from "react";
+import type { SetStateAction } from "react";
 import { useState } from "react";
+import type { Dayjs } from "dayjs";
 
 const TaskList = () => {
   const { tasks } = useTaskProvider();
-  const [dateRange, setDateRange] = useState([undefined, undefined]);
+  const [dateRange, setDateRange] = useState<[Dayjs, Dayjs] | null | undefined>(
+    null
+  );
   const [priority, setPriority] = useState<string | undefined>();
   const [status, setStatus] = useState<string | undefined>();
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const filteredTasks = tasks.filter((task) => {
-    // Filter by date range
-    const [startDate, endDate] = dateRange;
 
-    if (startDate && endDate) {
+    let startDate, endDate;
+    if (Array.isArray(dateRange) && dateRange.length === 2) {
+      [startDate, endDate] = dateRange;
+    }
+
+    // Filter by date range
+   if (startDate && endDate) {
       const taskStartDate = new Date(task.startDate);
       const taskEndDate = new Date(task.endDate);
-      
-      const filterStartDate = new Date(startDate);
+
+      const filterStartDate = new Date(startDate as unknown as string);
       filterStartDate.setHours(0, 0, 0, 0);
-      
-      const filterEndDate = new Date(endDate);
+
+      const filterEndDate = new Date(endDate as unknown as string);
       filterEndDate.setHours(23, 59, 59, 999);
-      
+
       if (taskStartDate < filterStartDate || taskEndDate > filterEndDate) {
         return false;
       }
@@ -58,12 +65,12 @@ const TaskList = () => {
   });
 
   const clearFilters = () => {
-    setDateRange([undefined, undefined]);
+    setDateRange(null);
     setPriority(undefined);
     setStatus(undefined);
     setSearchQuery("");
   };
-  
+
   return (
     <div className="w-full ">
       <div className="flex items-center justify-between gap-3 pt-5 pb-8 sm:py-10 sm:hidden">
@@ -82,7 +89,7 @@ const TaskList = () => {
         </button>
       </div>
       <div className="grid w-full grid-cols-1 gap-4 pb-10 sm:grid-cols-2 lg:grid-cols-4 sm:pb-0">
-      <div className="block sm:hidden">
+        <div className="block sm:hidden">
           <TextInput
             prefix={<SearchIcon />}
             placeholder="Search"
@@ -96,12 +103,10 @@ const TaskList = () => {
           label="Date"
           placeholder={["Start date", "End date"]}
           value={dateRange}
-          onChange={(dates: SetStateAction<undefined[]> | null) => {
-            if (dates === null) {
-              setDateRange([undefined, undefined]);
-            } else {
-              setDateRange(dates);
-            }
+          onChange={(
+            dates: SetStateAction<[Dayjs, Dayjs] | null | undefined> | null
+          ) => {
+            setDateRange(dates);
           }}
         />
         <SelectInput
