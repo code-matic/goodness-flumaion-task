@@ -16,6 +16,10 @@ A modern web application designed to help you manage your tasks efficiently with
   - Filter by custom date ranges
   - Search functionality to quickly find tasks by title
 
+## Demo
+
+Check out the live demo: [Task Scheduler Demo](https://goodness-flumaion-task-scheduler-749119130796.europe-west1.run.app)
+
 ## Technologies Used
 
 - **Frontend**
