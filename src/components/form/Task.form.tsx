@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../common/TextInput";
 import Button from "../common/Button";
 import TextAreaInput from "../common/TextAreaInput";
@@ -30,6 +30,7 @@ interface TaskFormProps {
 const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
   const [form] = Form.useForm();
   const { addNewTask, isLoading, updateExistingTask } = useTaskProvider();
+  const [isFormChanged, setIsFormChanged] = useState(false);
   dayjs.extend(utc);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
         endDate: dayjs(initialValues.endDate).utc(),
       };
       form.setFieldsValue(formValues);
+      setIsFormChanged(false)
     }
   }, [initialValues, form]);
 
@@ -81,12 +83,29 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
     }
   };
 
+  const handleValuesChange = () => {
+    if (!initialValues) return;
+  
+    const currentValues = form.getFieldsValue();
+  
+    const areValuesDifferent = (Object.keys(currentValues) as Array<keyof Task>).some((key) => {
+      if (key === "startDate" || key === "endDate") {
+        return dayjs(currentValues[key]).utc().toISOString() !== dayjs(initialValues[key]).utc().toISOString();
+      }
+      return currentValues[key] !== initialValues[key];
+    });
+  
+    setIsFormChanged(areValuesDifferent);
+  };
+  
+
   return (
     <div>
       <Form
         autoComplete="on"
         form={form}
         className="w-full"
+        onValuesChange={handleValuesChange}
       >
         <Form.Item
           name="title"
@@ -246,6 +265,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ initialValues, handleCancel }) => {
             onClick={handleSubmit}
             className="max-w-[150px]"
             loading={isLoading}
+            disabled={initialValues ? !isFormChanged : false}
           />
         </div>
       </Form>
